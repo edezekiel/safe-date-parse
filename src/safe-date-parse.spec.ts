@@ -128,9 +128,32 @@ describe('SafeDateParsers should safely parse:', () => {
       });
     });
   });
+  describe('null', () => {
+    it(`safeDateParse: should return undefined`, () => {
+      // Act
+      const result = safeDateParse(null);
+      // Assert
+      expect(result).toStrictEqual(undefined);
+    });
+    it(`dateFns: should return undefined`, () => {
+      // Act
+      const result = dateFnsSafeParse(null);
+      // Assert
+      expect(result).toStrictEqual(undefined);
+    });
+    it(`zod: should return the Unix Epoch start`, () => {
+      // Act
+      const result = zodSafeParse(null);
+      // Assert
+      /* zod allows null to be coerced into a Date. 
+      Invoking new Date(null) generates an TypeScript error when "strict": true is set in the tsconfig.
+      However, no error is thrown here with zod because of the `coerce`.
+      */
+      expect(result).toStrictEqual(new Date(0));
+    });
+  });
   describe('other primitives', () => {
     [
-      { input: null, expected: undefined },
       { input: undefined, expected: undefined },
       { input: Infinity, expected: undefined },
       { input: -Infinity, expected: undefined },
