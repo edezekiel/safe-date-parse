@@ -1,5 +1,6 @@
 import { dateFnsParseISO, dateFnsSafeParse } from './date-fns-safe-parse';
 import { safeDateParse } from './safe-date-parse';
+import { zodSaferDateParse } from './zod-safer-date-parse';
 import { zodSafeParse } from './zod-safe-date-parse';
 
 describe('SafeDateParsers should safely parse:', () => {
@@ -39,6 +40,12 @@ describe('SafeDateParsers should safely parse:', () => {
       it(`zod ${i}: should return ${expected}`, () => {
         // Act
         const result = zodSafeParse(input);
+        // Assert
+        expect(result).toStrictEqual(expected);
+      });
+      it(`zod safer ${i}: should return ${expected}`, () => {
+        // Act
+        const result = zodSaferDateParse(input);
         // Assert
         expect(result).toStrictEqual(expected);
       });
@@ -91,6 +98,12 @@ describe('SafeDateParsers should safely parse:', () => {
         // Assert
         expect(result).toStrictEqual(expected);
       });
+      it(`zod safer ${i}: should return ${expected}`, () => {
+        // Act
+        const result = zodSaferDateParse(input);
+        // Assert
+        expect(result).toStrictEqual(expected);
+      });
     });
   });
   describe('numbers (timestamps)', () => {
@@ -126,6 +139,12 @@ describe('SafeDateParsers should safely parse:', () => {
         // Assert
         expect(result).toStrictEqual(expected);
       });
+      it(`zod safer ${i}: should return ${expected}`, () => {
+        // Act
+        const result = zodSafeParse(input);
+        // Assert
+        expect(result).toStrictEqual(expected);
+      });
     });
   });
   describe('null', () => {
@@ -140,6 +159,12 @@ describe('SafeDateParsers should safely parse:', () => {
       const result = dateFnsSafeParse(null);
       // Assert
       expect(result).toStrictEqual(undefined);
+    });
+    it('zod saferDateParse: should return undefined', () => {
+      // Act
+      const result = zodSaferDateParse(null);
+      // Assert
+      expect(result).toBeUndefined();
     });
     it(`zod: should return the Unix Epoch start`, () => {
       // Act
